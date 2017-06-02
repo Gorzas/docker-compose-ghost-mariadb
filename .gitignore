@@ -1,0 +1,6 @@
+.env
+
+ghost/apps
+ghost/data
+ghost/images
+ghost/themes
