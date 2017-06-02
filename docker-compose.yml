@@ -1,0 +1,37 @@
+version: '2'
+services:
+        web:
+                container_name: ghost_blog
+                restart: always
+                image: ghost
+                ports:
+                        - "80:2368"
+                volumes:
+                        - ./ghost:/var/lib/ghost
+                env_file:
+                        - .env
+                environment:
+                        - NODE_ENV=${NODE_ENV}
+                        - "WEB_DOMAIN=${WEB_DOMAIN}"
+                        - DB_DATABASE=${DB_NAME}
+                        - DB_USER=${DB_USER}
+                        - "DB_PASSWORD=${DB_PASSWORD}"
+                        - "EMAIL_SERVICE=${EMAIL_SERVICE}"
+                        - "EMAIL_USER=${EMAIL_USER}"
+                        - "EMAIL_PASSWORD=${EMAIL_PASSWORD}"
+                depends_on:
+                        - db
+        db:
+                container_name: ghost_db
+                image: mariadb:latest
+                restart: always
+                env_file:
+                        - .env
+                expose:
+                        - "3306"
+                environment:
+                        - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+                        - MYSQL_DATABASE=${DB_NAME}
+                        - MYSQL_USER=${DB_USER}
+                        - "MYSQL_PASSWORD=${DB_PASSWORD}"
+        
